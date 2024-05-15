@@ -1,0 +1,48 @@
+ Algoritma Rate Base
+
+Kamus Fungsi : 
+- chooseVariant: Metode `chooseVariant()` akan dipanggil untuk memilih varian
+ yang sesuai berdasarkan kecepatan unduh terakhir.
+
+- segmentDownloaded: metode `segmentDownloaded()` dipanggil, parameter 
+`deltaTimeMs` dan `numBytes` akan digunakan untuk 
+menghitung kecepatan unduh (download speed) dari segment terakhir
+
+Fungsi :
+   segmentDownloaded(deltaTimeMs, numBytes, allowSwitch) {
+    // Input: 
+    // - deltaTimeMs: Durasi dalam milidetik yang dibutuhkan untuk menyelesaikan permintaan.
+    // - numBytes: Jumlah total byte yang ditransfer.
+    // - allowSwitch: Indikasi apakah segmen diizinkan untuk beralih ke aliran lain.
+
+    // Proses:
+    DownloadSpeed = Math.ceil(numBytes / deltaTimeMs) * 1024 * 10;
+    LastDownloadSpeed_ = DownloadSpeed;
+    chosenVariant = this.chooseVariant();
+    switchVariant = this.switch_(chosenVariant, this.config_.clearBufferSwitch, this.config_.safeMarginSwitch);
+
+    // Opsional:
+    // Jika varian dipilih dan beralih diizinkan:
+    if (chosenVariant && allowSwitch) then
+        switchVariant = this.switch_(chosenVariant);
+
+    // Output: Tidak ada output.
+}
+   chooseVariant() {
+    // Input: Tidak ada input.
+    // Proses:
+    LastDownloadSpeedMbps = this.lastDownloadSpeed_;
+    chooseVariant = null | [];
+    if (LastDownloadSpeedMbps > 0) then
+        filteredVariants = this.variants_.filter(variant => variant.bandwidth <= LastDownloadSpeedMbps);
+        if (filteredVariants.length > 0) then
+            chosenVariant = filteredVariants.reduce((prev, curr) => curr.bandwidth > prev.bandwidth ? curr : prev);
+        if (!chosenVariant) then
+            chosenVariant = this.variants_.reduce((prev, curr) => curr.bandwidth > prev.bandwidth ? curr : prev);
+    return chooseVariant;
+    // Output: Varian yang dipilih.
+}
+
+
+
+ 

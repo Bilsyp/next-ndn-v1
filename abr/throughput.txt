@@ -1,0 +1,76 @@
+Algoritma Simple ABR Throughput
+
+Kamus Fungsi:
+
+chooseVariant(): Fungsi ini bertanggung jawab untuk memilih varian stream yang paling cocok berdasarkan estimasi bandwidth saat ini.
+segmentDownloaded(deltaTimeMs, numBytes, allowSwitch): Fungsi ini dipanggil setiap kali segment telah diunduh, yang memperbarui estimasi bandwidth.
+suggestStreams_(): Fungsi ini bertugas untuk menyarankan stream berdasarkan estimasi bandwidth terkini.
+
+segmentDownloaded(deltaTimeMs, numBytes, allowSwitch) {
+   // Input : deltaTimeMs, numBytes, allowSwitch
+
+   // Proses :
+     bandwidthEstimator_.sample(deltaTimeMs, numBytes);
+     if (allowSwitch && (lastTimeChosenMs_ != null) && enabled_) then
+      suggestStreams_();
+
+   // Output : No Output  
+}
+
+chooseVariant(){
+    // Proses:
+    normalVariants = variants_.filter((variant) => {
+      return !shaka.util.StreamUtils.isFastSwitching(variant);
+    });
+    if (!normalVariants.length) then 
+      normalVariants = this.variants_;
+   
+    variants = normalVariants;
+
+    sortedVariants = this.filterAndSortVariants_(variants)
+
+    currentBandwidth = this.getBandwidthEstimate();
+     if (variants.length && !sortedVariants.length) then 
+     sortedVariants = this.filterAndSortVariants_(variants);
+     sortedVariants = [sortedVariants[0]];
+
+   chosen = sortedVariants[0] || null;
+   for (let i = 0; i < sortedVariants.length; i++) then
+   item = sortedVariants[i]
+   playbackRate =  1;  
+   itemBandwidth = playbackRate * item.bandwidth
+   minBandwidth = itemBandwidth / this.config_.bandwidthDowngradeTarget
+   next = {bandwidth: Infinity};
+      for (let j = i + 1; j < sortedVariants.length; j++) then
+        if (item.bandwidth != sortedVariants[j].bandwidth) then
+          next = sortedVariants[j];
+          break;
+    nextBandwidth = playbackRate * next.bandwidth
+    maxBandwidth = nextBandwidth / this.config_.bandwidthUpgradeTarget
+      if (currentBandwidth >= minBandwidth &&
+          currentBandwidth <= maxBandwidth &&
+          chosen.bandwidth != item.bandwidth) then
+        chosen = item;
+
+    lastTimeChosenMs_ = Date.now();
+    return chosen;        
+
+   // Output : chosen
+}
+
+suggestStreams_(){
+   // Input : No Input
+    if (!startupComplete_) then
+      // Check if we've got enough data yet.
+      if (!bandwidthEstimator_.hasGoodEstimate()) then
+      startupComplete_ = true;
+
+   chosenVariant = chooseVariant();
+   bandwidthEstimate = getBandwidthEstimate();
+   currentBandwidthKbps = Math.round(bandwidthEstimate / 1000.0);   
+
+      if (chosenVariant) then
+          switch_(chosenVariant, config_.clearBufferSwitch,
+          config_.safeMarginSwitch);
+   // Output : No Output      
+}

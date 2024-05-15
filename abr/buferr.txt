@@ -1,0 +1,58 @@
+Algoritma Buffer Base
+
+Kamus Fungsi : 
+- calculateBufferPercentage: Fungsi ini mengambil berat buffer dalam milidetik sebagai input,
+ mengonversinya ke detik, kemudian menghitung persentase buffer dengan mengalikannya dengan 100. 
+ Fungsi ini mengembalikan persentase buffer yang dihitung.
+- chooseVariant: Fungsi ini mengurutkan varian berdasarkan bandwidth secara menurun, 
+kemudian memilih varian berdasarkan level buffer.
+ Fungsi ini mendefinisikan ambang batas level buffer rendah dan sedang, 
+ dan memilih varian yang sesuai.
+- segmentDownloaded: Metode ini dipanggil saat suatu segmen media telah diunduh.
+ Metode ini menghitung persentase buffer, mengonversinya ke level antara 1-10,
+ memilih varian berdasarkan level buffer, beralih ke varian yang dipilih, dan
+ memperbarui level buffer terakhir.
+
+segmentDownloaded(deltaTimeMs, numBytes, allowSwitch) {
+    // Input: 
+    // - deltaTimeMs: Durasi dalam milidetik yang dibutuhkan untuk menyelesaikan permintaan.
+    // - numBytes: Jumlah total byte yang ditransfer.
+    // - allowSwitch: Indikasi apakah segmen diizinkan untuk beralih ke aliran lain.
+    
+    // Proses:
+    Buffer fullness (buffer) = this.getBufferFullness_();
+    Buffer fullness rounded (bufferInteger) =  Math.round(buffer * 1000);
+    Buffer percentage (bufferPercentage) = this.calculateBufferPercentage(bufferInteger);
+    Buffer level (bufferLevel) = Math.ceil(bufferPercentage / 10);
+    Chosen variant (chosenVariant) = this.chooseVariant(bufferLevel);
+    switch Variant = this.switch_(chosenVariant);
+
+    // Opsional:
+    if (chosenVariant && allowSwitch) then
+        switch Variant = this.switch_(chosenVariant);
+    Last buffer level (this.lastLevel) = bufferLevel;
+    // Output: Tidak ada output.
+}
+chooseVariant(bufferLevel) {
+    // Input: bufferLevel
+    // Proses:
+    sortedVariants = this.variants_.sort((a, b) => b.bandwidth - a.bandwidth);
+    Define the range for different buffer levels;
+    lowBufferRange = 3;
+    mediumBufferRange = 7; 
+       
+    if (bufferLevel <= lowBufferRange) then
+        chooseVariant = sortedVariants[sortedVariants.length - 1];
+     else if (bufferLevel <= mediumBufferRange) then
+        mediumVariantIndex = Math.floor((sortedVariants.length - 1) / 2);
+        chooseVariant = sortedVariants[mediumVariantIndex];
+     else 
+        chooseVariant = sortedVariants[0];
+    // Output: chosenVariant
+}
+calculateBufferPercentage(bufferFilled){
+    // Input: bufferFilled
+    // Proses:
+    bufferPercentage = (bufferFilled / 1000) * 100;
+    // Output: bufferPercentage
+}
