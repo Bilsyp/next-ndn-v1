@@ -1,5 +1,4 @@
-import { client } from "@/sanity/lib/client";
-import { urlForImage } from "@/sanity/lib/image";
+import { urlForImage, client } from "@/connection/client";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 export const revalidate = 30;

@@ -1,5 +1,5 @@
 import { CardBlog } from "@/components/component/card-blog";
-import { client } from "@/sanity/lib/client";
+import { client } from "@/connection/client";
 
 export const revalidate = 30;
 

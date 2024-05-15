@@ -1,4 +1,4 @@
-import { urlForImage } from "@/sanity/lib/image";
+import { urlForImage } from "@/connection/client";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
