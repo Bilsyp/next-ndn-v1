@@ -3,11 +3,7 @@ import React from "react";
 import { About } from "@/components/component/about";
 
 const page = () => {
-  return (
-    <div>
-      <About />{" "}
-    </div>
-  );
+  return <About />;
 };
 
 export default page;

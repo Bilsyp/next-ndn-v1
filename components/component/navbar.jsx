@@ -158,7 +158,7 @@ function MenuIcon(props) {
   );
 }
 
-function MountainIcon(props) {
+export function MountainIcon(props) {
   return (
     <svg
       {...props}
