@@ -26,6 +26,7 @@
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.42.0",
     "@tailwindcss/typography": "^0.5.13",
+    "@types/webgl2": "^0.0.11",
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -41,6 +42,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-papaparse": "^4.4.0",
+    "react-vis-network-graph": "^3.0.1",
     "rehype-highlight": "^7.0.0",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
@@ -48,7 +50,10 @@
     "shaka-player": "^4.8.3",
     "styled-components": "^6.1.11",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "vis": "^4.21.0-EOL",
+    "vis-data": "^7.1.9",
+    "vis-network": "^9.1.9"
   },
   "devDependencies": {
     "eslint": "^8",

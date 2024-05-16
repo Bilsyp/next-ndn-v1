@@ -46,6 +46,12 @@ export function Navbar() {
         >
           Blog
         </Link>
+        <Link
+          className="transition-colors hover:text-gray-600 focus:text-gray-600"
+          href="/topologi"
+        >
+          Topologi
+        </Link>
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -96,6 +102,13 @@ export function Navbar() {
               href="/blog"
             >
               Blog
+              <ChevronRightIcon className="h-5 w-5" />
+            </Link>
+            <Link
+              className="flex items-center justify-between gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100 focus:bg-gray-100"
+              href="/topologi"
+            >
+              Topologi
               <ChevronRightIcon className="h-5 w-5" />
             </Link>
           </div>

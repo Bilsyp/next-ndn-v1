@@ -6,3 +6,6 @@
     @apply lg:max-w-[1200px]  lg:w-[750px] mx-auto p-10 overflow-clip;
   }
 }
+.test {
+  color: #adff2f;
+}
