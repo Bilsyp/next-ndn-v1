@@ -21,7 +21,7 @@ async function getData() {
 export default async function Home() {
   const data = await getData();
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto bg-red-500">
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 py-8 md:px-6 lg:py-12">
         {data.reverse().map((item, idx) => {
           return <CardBlog {...item} key={idx} />;
