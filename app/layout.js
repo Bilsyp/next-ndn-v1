@@ -1,7 +1,7 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/component/navbar";
-
+import Script from "next/script";
 const inter = Poppins({ subsets: ["latin"], weight: ["100", "500"] });
 
 export const metadata = {

@@ -9,6 +9,7 @@ const SelectAbr = ({ setconfig }) => {
       <option>Rate Base</option>
       <option>Throughput Base</option>
       <option>Hybrid Base</option>
+      <option>Neural Base</option>
     </select>
   );
 };

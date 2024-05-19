@@ -1,8 +1,8 @@
 "use client";
 import shaka from "shaka-player";
+import Script from "next/script";
 import { Streaming } from "@/components/component/streaming";
 import React, { useEffect, useState } from "react";
-import { uiConfig } from "@/config/ui.config";
 import { Button } from "@/components/ui/button";
 import { useQueue } from "@uidotdev/usehooks";
 import { Connection } from "@/components/component/connection";
@@ -14,12 +14,15 @@ import { Buffers } from "@/abr/buffer";
 import { Rate } from "@/abr/rate";
 import { Hybrid } from "@/abr/hybrid";
 import Link from "next/link";
+import { Neural } from "@/abr/neural";
+
 const Stream = () => {
   const [player, setPlayer] = useState(null);
   const [content, setContent] = useState("");
   const { clear, add, queue } = useQueue([]);
   const { jsonToCSV } = usePapaParse();
   const [config, setConfig] = useState("");
+  const [net, setNet] = useState();
 
   useEffect(() => {
     checkBrowserSupport();
@@ -199,6 +202,12 @@ const Stream = () => {
           },
         });
         break;
+      case "Neural Base":
+        player.configure(
+          "abrFactory",
+          () => new Neural(() => player?.getBufferFullness(), net)
+        );
+        break;
       case "Throughput Base":
         player.configure("abrFactory", () => new shaka.abr.SimpleAbrManager());
         // player.resetConfiguration();
@@ -238,6 +247,32 @@ const Stream = () => {
           <SelectAbr setconfig={setConfig} />
         </div>
       </Streaming>
+      <Script
+        onLoad={async () => {
+          const config = {
+            binaryThresh: 0.5,
+            hiddenLayers: [10], // array of ints for the sizes of the hidden layers in the network
+            activation: "sigmoid", // supported activation types: ['sigmoid', 'relu', 'leaky-relu', 'tanh'],
+            leakyReluAlpha: 0.01, // supported for activation type 'leaky-relu'
+          };
+
+          // create a simple feed-forward neural network with backpropagation
+          const net = new brain.NeuralNetwork(config);
+          const timeStep = new brain.recurrent.LSTMTimeStep({
+            inputSize: 2,
+            hiddenLayers: [10],
+            outputSize: 2,
+          });
+          const test = await fetch(
+            "https://raw.githubusercontent.com/Bilsyp/model_brainjs/master/model_v5.json"
+          );
+          const result = await test.json();
+          net.fromJSON(result);
+          setNet(net);
+        }}
+        // src="/model.js"s
+        src="https://unpkg.com/brain.js@2.0.0-beta.23/dist/browser.js"
+      ></Script>
     </div>
   );
 };
