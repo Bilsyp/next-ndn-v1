@@ -1,36 +1,38 @@
-<mxfile host="app.diagrams.net" modified="2024-05-22T02:21:29.926Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0" etag="qHzR7Xl8f6Sk3h-fQ-0j" version="24.4.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-05-22T02:30:39.741Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0" etag="hQ-nYyf4fz8ZdfAlz9jW" version="24.4.4" type="github">
   <diagram id="6a731a19-8d31-9384-78a2-239565b7b9f0" name="Page-1">
-    <mxGraphModel dx="1992" dy="1138" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
+    <mxGraphModel dx="569" dy="325" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="2" value="start" style="shape=mxgraph.flowchart.terminator;strokeWidth=2;gradientColor=none;gradientDirection=north;fontStyle=0;html=1;" parent="1" vertex="1">
-          <mxGeometry x="260" y="60" width="120" height="30" as="geometry" />
+          <mxGeometry x="525" y="140" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="3" value="Get Numbytes and&lt;div&gt;DeltaTimes&lt;/div&gt;" style="shape=mxgraph.flowchart.data;strokeWidth=2;gradientColor=none;gradientDirection=north;fontStyle=0;html=1;" parent="1" vertex="1">
-          <mxGeometry x="240.5" y="130" width="159" height="80" as="geometry" />
+          <mxGeometry x="486" y="210" width="159" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="7" style="fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;" parent="1" source="2" target="3" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="7" style="fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="2" target="3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="200" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="8" style="fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;" parent="1" source="o4Gy2tLyEOyUwgMuN-td-55" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="320" y="250" as="targetPoint" />
+            <mxPoint x="570" y="390" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="9" style="entryX=0.5;entryY=0;entryPerimeter=0;fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;" parent="1" edge="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="320" y="330" as="sourcePoint" />
-            <mxPoint x="320" y="390" as="targetPoint" />
+            <mxPoint x="570" y="470" as="sourcePoint" />
+            <mxPoint x="570" y="530" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="11" value="yes" style="text;fontStyle=0;html=1;strokeColor=none;gradientColor=none;fillColor=none;strokeWidth=2;" parent="1" vertex="1">
-          <mxGeometry x="370" y="390" width="40" height="26" as="geometry" />
+          <mxGeometry x="620" y="530" width="40" height="26" as="geometry" />
         </mxCell>
         <mxCell id="12" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;fontColor=#001933;fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;" parent="1" edge="1">
           <mxGeometry width="100" height="100" as="geometry">
-            <mxPoint x="320.45454545454527" y="447" as="sourcePoint" />
-            <mxPoint x="320.45454545454527" y="510" as="targetPoint" />
+            <mxPoint x="570.4545454545453" y="587" as="sourcePoint" />
+            <mxPoint x="570.4545454545453" y="650" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="45" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;exitX=1;exitY=0.5;exitPerimeter=0;entryX=0.905;entryY=0.5;entryPerimeter=0;fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;" parent="1" target="34" edge="1">
@@ -44,21 +46,21 @@
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-56" value="" style="fontStyle=1;strokeColor=#003366;strokeWidth=1;html=1;" edge="1" parent="1" source="3" target="o4Gy2tLyEOyUwgMuN-td-55">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="320" y="210" as="sourcePoint" />
-            <mxPoint x="320" y="250" as="targetPoint" />
+            <mxPoint x="400" y="340" as="sourcePoint" />
+            <mxPoint x="400" y="380" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-55" value="&lt;font style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-family: KaTeX_Main, &amp;quot;Times New Roman&amp;quot;, serif; text-wrap: nowrap; background-color: rgb(255, 255, 255);&quot;&gt;Throughput&amp;nbsp;(byte/ms)&lt;/span&gt;&amp;nbsp;* 1000&lt;/font&gt;" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;strokeWidth=3;" vertex="1" parent="1">
-          <mxGeometry x="236" y="250" width="170" height="70" as="geometry" />
+          <mxGeometry x="486" y="390" width="170" height="70" as="geometry" />
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-60" value="&lt;font style=&quot;font-size: 10px;&quot;&gt;Save Last Throughput Speed&lt;/font&gt;" style="shape=dataStorage;whiteSpace=wrap;html=1;fixedSize=1;fillStyle=solid;strokeWidth=2;" vertex="1" parent="1">
-          <mxGeometry x="225" y="374" width="200" height="80" as="geometry" />
+          <mxGeometry x="475" y="514" width="200" height="80" as="geometry" />
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-62" value="&lt;span style=&quot;font-size: 10px;&quot;&gt;Throughput Speed &amp;gt; 0&amp;nbsp;&lt;/span&gt;" style="rhombus;whiteSpace=wrap;html=1;strokeWidth=3;" vertex="1" parent="1">
-          <mxGeometry x="258.37" y="480" width="125.25" height="120" as="geometry" />
+          <mxGeometry x="508.37" y="620" width="125.25" height="120" as="geometry" />
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-63" value="Return&amp;nbsp; Highest&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;Bitrate&amp;nbsp;&lt;/span&gt;&lt;br&gt;&lt;div&gt;Variant&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=3;" vertex="1" parent="1">
-          <mxGeometry x="70" y="620" width="160" height="90" as="geometry" />
+          <mxGeometry x="320" y="760" width="160" height="90" as="geometry" />
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.555;entryY=-0.011;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="o4Gy2tLyEOyUwgMuN-td-62" target="o4Gy2tLyEOyUwgMuN-td-63">
           <mxGeometry relative="1" as="geometry" />
@@ -70,7 +72,7 @@
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.594;entryY=0.023;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="o4Gy2tLyEOyUwgMuN-td-62">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="525.04" y="622.07" as="targetPoint" />
+            <mxPoint x="775.04" y="762.07" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-69" value="No" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="o4Gy2tLyEOyUwgMuN-td-68">
@@ -82,10 +84,10 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-73" value="Look for variants that have a bitrate equal to or less equal to the last throughput rate" style="shape=process;whiteSpace=wrap;html=1;backgroundOutline=1;strokeWidth=3;" vertex="1" parent="1">
-          <mxGeometry x="410" y="620" width="225" height="90" as="geometry" />
+          <mxGeometry x="660" y="760" width="225" height="90" as="geometry" />
         </mxCell>
         <mxCell id="o4Gy2tLyEOyUwgMuN-td-77" value="Return Variant with the same or less qual&lt;div&gt;speed between&amp;nbsp;&lt;span style=&quot;font-size: 10px; background-color: initial;&quot;&gt;Throughput speed and bitrate&lt;/span&gt;&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=3;" vertex="1" parent="1">
-          <mxGeometry x="170" y="790" width="270" height="110" as="geometry" />
+          <mxGeometry x="420" y="930" width="270" height="110" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
