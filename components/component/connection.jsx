@@ -18,10 +18,10 @@ export function Connection() {
 
     try {
       // Fetch the router URL
-      const response = await fetch("https://ndn-fch.named-data.net/");
-      const result = await response.text();
-      const url = `wss://${result}/ws/`;
-      // const url = `ws://localhost:4545/ws/`;
+      // const response = await fetch("https://ndn-fch.named-data.net/");
+      // const result = await response.text();
+      // const url = `wss://${result}/ws/`;
+      const url = `ws://localhost:9696/ws/`;
 
       // Update the router state
       setGetRouter(url);
@@ -29,7 +29,6 @@ export function Connection() {
       try {
         // Establish the connection
         const coon = await connection(url);
-        console.log(coon.toString());
         setGetConnection(coon);
 
         // Update the error and loading states
