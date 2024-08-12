@@ -18,10 +18,10 @@ export function Connection() {
 
     try {
       // Fetch the router URL
-      // const response = await fetch("https://ndn-fch.named-data.net/");
-      // const result = await response.text();
-      // const url = `wss://${result}/ws/`;
-      const url = `ws://localhost:9696/ws/`;
+      const response = await fetch("https://ndn-fch.named-data.net/");
+      const result = await response.text();
+      const url = `wss://${result}/ws/`;
+      // const url = `ws://localhost:9696/ws/`;
 
       // Update the router state
       setGetRouter(url);
