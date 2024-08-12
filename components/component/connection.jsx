@@ -1,4 +1,4 @@
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card";
+import { CardTitle, CardContent, Card } from "@/components/ui/card";
 import { connection } from "@/ndn/ndn-shaka-plugin";
 import { useState, useEffect } from "react";
 export function Connection() {

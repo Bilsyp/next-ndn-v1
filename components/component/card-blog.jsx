@@ -1,11 +1,11 @@
 import { urlForImage } from "@/connection/client";
 import Link from "next/link";
 import { Button } from "../ui/button";
-
+import Image from "next/image";
 export function CardBlog({ title, smallDescription, titleImage, currentSlug }) {
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-md dark:bg-gray-950">
-      <img
+      <Image
         alt="Blog Post Image"
         className="w-full h-48 object-cover"
         height={400}
