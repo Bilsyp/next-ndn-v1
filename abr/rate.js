@@ -7,6 +7,8 @@ export class Rate {
     this.mediaElement_ = null;
     this.lastTimeChosenMs_ = null;
     this.lastDownloadSpeed_ = null;
+    this.downloadedSegments = [];
+    this.monitoring();
   }
 
   init(switchCallback) {
@@ -43,7 +45,9 @@ export class Rate {
     this.lastTimeChosenMs_ = null;
   }
 
-  playbackRateChanged(rate) {}
+  playbackRateChanged(rate) {
+    this.playbackRate_ = rate;
+  }
 
   getBandwidthEstimate() {
     // If bandwidth estimation is not available, return 0
@@ -78,10 +82,24 @@ export class Rate {
     return chosenVariant;
   }
 
+  monitoring() {}
+
+  /**
+   * @param {number} deltaTimeMs The duration, in milliseconds, that the request
+   *     took to complete.
+   * @param {number} numBytes The total number of bytes transferred.
+   * @param {boolean} allowSwitch Indicate if the segment is allowed to switch
+   *     to another stream.
+   * @param {shaka.extern.Request=} request
+   *     A reference to the request
+   * @override
+   * @export
+   */
+
   segmentDownloaded(deltaTimeMs, numBytes, allowSwitch) {
-    const throughputBps = (numBytes * 8) / (deltaTimeMs / 1000);
-    const throughputMbps = Math.round(throughputBps / (1024 * 1024));
-    this.lastDownloadSpeed_ = throughputMbps * 1024;
+    const deltaSec = deltaTimeMs / 1000; // Konversi dari milidetik ke detik
+    const throughputBps = (numBytes * 8) / deltaSec; // Throughput dalam bit per detik
+    const throughputKbps = throughputBps / 1024; // Throughput dalam kilobit per detik
     const chosenVariant = this.chooseVariant();
     if (allowSwitch) {
       this.switch_(
@@ -90,5 +108,27 @@ export class Rate {
         this.config_.safeMarginSwitch
       );
     }
+    this.lastDownloadSpeed_ = throughputKbps;
+  }
+  startMonitoring() {
+    return setInterval(() => {
+      const currentTime = Date.now();
+      const recentSegments = this.downloadedSegments.filter(
+        (segment) => currentTime - segment.timestamp <= 5000
+      );
+      this.lastDownloadedSegmentsCount = recentSegments.length;
+      //   const stats = this.player.getStats();
+      //   const display = new DisplayStats();
+      //   params.forEach((item) => {
+      //     const value = {
+      //       ...stats,
+      //       lastDownloadedSegmentsCount: this.lastDownloadedSegmentsCount,
+      //       liveLatency: this.getLatencyStatistics().averageLatency.toFixed(2),
+      //       segmentdelay: this.calculateDelay(),
+      //       jitter: this.calculateJitter(),
+      //     };
+      //     display.displayStatValue(item, value);
+      //   });
+    }, this.monitorInterval);
   }
 }

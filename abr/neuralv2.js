@@ -1,12 +1,11 @@
 export class Templates {
-  constructor(getBufferFullnessCallback, player) {
+  constructor(net) {
     /** @private {?shaka.extern.AbrManager.SwitchCallback} */
     this.switch_ = null;
     /** @private {boolean} */
     this.enabled_ = false;
     /** @private {shaka.abr.EwmaBandwidthEstimator} */
-    this.player = player;
-    this.getBufferFullness = getBufferFullnessCallback;
+    this.net = net;
     /**
      * A filtered list of Variants to choose from.
      * @private {!Array.<!shaka.extern.Variant>}
@@ -81,6 +80,59 @@ export class Templates {
   chooseVariant(preferFastSwitching) {
     console.log("ok");
     return this.variants_[0];
+  }
+  getDefaultBandwidth_() {
+    let defaultBandwidthEstimate = this.config_.defaultBandwidthEstimate;
+
+    // Some browsers implement the Network Information API, which allows
+    // retrieving information about a user's network connection.  Tizen 3 has
+    // NetworkInformation, but not the downlink attribute.
+    if (
+      navigator.connection &&
+      navigator.connection.downlink &&
+      this.config_.useNetworkInformation
+    ) {
+      // If it's available, get the bandwidth estimate from the browser (in
+      // megabits per second) and use it as defaultBandwidthEstimate.
+      defaultBandwidthEstimate = navigator.connection.downlink * 1e6;
+    }
+    return defaultBandwidthEstimate;
+  }
+  neuralNetwork(currentBandwidth) {
+    const result = this.net.run({ [currentBandwidth]: 1 });
+    let highestValue = 0;
+    let highestVariant = "";
+    for (const key in result) {
+      const testResult = result[key];
+      if (testResult > highestValue) {
+        highestValue = testResult;
+        highestVariant = key;
+      }
+    }
+
+    return highestVariant;
+  }
+  adjustVariantByBandwidth(currentBandwidth) {
+    const sortedVariants = this.variants_.sort(
+      (a, b) => b.bandwidth - a.bandwidth
+    );
+    const value = Number(this.neuralNetwork(currentBandwidth));
+    if (value) {
+      for (const variant of sortedVariants) {
+        const tests = Math.round(variant.bandwidth / 1000);
+        console.log(sortedVariants[sortedVariants.length - 1]);
+
+        if (value == tests) {
+          return variant;
+        } else {
+          return sortedVariants[sortedVariants.length - 1];
+        }
+        // return this.variants_[0];
+      }
+    } else {
+      return sortedVariants[sortedVariants.length - 1];
+    }
+    // Cari varian yang memiliki bandwidth yang sesuai dengan atau di bawah currentBandwidth
   }
   /**
    * Enables automatic Variant choices from the last ones passed to setVariants.

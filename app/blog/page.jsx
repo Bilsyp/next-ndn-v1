@@ -1,8 +1,6 @@
 import { CardBlog } from "@/components/component/card-blog";
 import { client } from "@/connection/client";
 
-export const revalidate = 30;
-
 async function getData() {
   try {
     const query = `

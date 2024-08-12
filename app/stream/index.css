@@ -31,7 +31,7 @@
 .shaka-video-container:-webkit-full-screen {
   width: 100%;
   height: 100%;
-  background-color: #000;
+  background-color: #d5ff03;
 }
 .shaka-video-container:-webkit-full-screen .shaka-text-container {
   font-size: 4.4vmin;

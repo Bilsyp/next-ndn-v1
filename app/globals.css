@@ -1,9 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --muted: #ededed;
+  --primary: rgb(15, 23, 42);
+}
+
 @layer components {
   .containers {
-    @apply lg:max-w-[1200px]  lg:w-[750px] mx-auto p-10 overflow-clip;
+    @apply lg:max-w-[1200px]  lg:w-[750px] mx-auto p-10 overflow-clip bg-slate-900;
   }
 }
 .test {

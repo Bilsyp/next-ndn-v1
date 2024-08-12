@@ -31,7 +31,7 @@ export async function connection(pref) {
     throw new Error(error);
   }
 }
-function findFwHint(name) {
+export function findFwHint(name) {
   for (const [prefix, fwHint] of fwHints) {
     if (prefix.isPrefixOf(name)) {
       return { fwHint };
@@ -79,7 +79,6 @@ export class FileFetcher {
       endpoint: this.endpoint,
     });
     const t0 = getNow();
-
     const payload = await fetch(metadata.name, {
       endpoint: this.endpoint,
       rtte: this.vf.rtte,

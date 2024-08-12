@@ -1,6 +1,5 @@
 "use client";
 import shaka from "shaka-player";
-import Script from "next/script";
 import { Streaming } from "@/components/component/streaming";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -19,15 +18,18 @@ import {
   handleLoadVideo,
   calculateDuration,
 } from "@/utils";
-
+import { BufferManager } from "@/abr/bufferv2";
+import { useId } from "react";
+import { Templates } from "@/abr/template";
 const Stream = () => {
   const [player, setPlayer] = useState(null);
   const [content, setContent] = useState("");
   const { clear, add, queue } = useQueue([]);
   const { jsonToCSV } = usePapaParse();
-  const [config, setConfig] = useState("");
+  const [config, setConfig] = useState("shaka");
   const [net, setNet] = useState();
   const video = useRef(null);
+  const id = useId();
 
   useEffect(() => {
     checkBrowserSupport(shaka, NdnPlugin, setPlayer);
@@ -35,6 +37,7 @@ const Stream = () => {
 
   const handleRecord = () => {
     const obj = JSON.stringify(queue);
+    console.log(queue);
     const csv = jsonToCSV(obj);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     downloadFile(blob, `${config}.csv`);
@@ -63,14 +66,9 @@ const Stream = () => {
       case "Buffer Base":
         player.configure(
           "abrFactory",
-          () => new Buffers(() => player?.getBufferFullness())
+          () => new BufferManager(() => player?.getBufferFullness(), player)
         );
-        player.configure({
-          streaming: {
-            bufferBehind: 5,
-            bufferingGoal: 120,
-          },
-        });
+
         break;
       case "Hybrid Base":
         player.configure(
@@ -107,10 +105,16 @@ const Stream = () => {
       },
     });
   };
+  const handleStats = () => {
+    handleTimeUpdate(player, NdnPlugin, add);
+  };
+
+  useEffect(() => {
+    handleLoadVideo(player, clear, content);
+  }, [content]);
   useEffect(() => {
     handleSetConfig();
-    handleLoadVideo(player, clear, content);
-  }, [config, content]);
+  }, [config]);
   return (
     <div>
       <Connection />
@@ -127,7 +131,7 @@ const Stream = () => {
             autoPlay
             ref={video}
             onLoadedMetadata={handleLoadMetadata}
-            onTimeUpdate={() => handleTimeUpdate(player, NdnPlugin, add)}
+            onTimeUpdate={handleStats}
             id="video"
             poster="/wal.jpg"
             controls
@@ -139,7 +143,7 @@ const Stream = () => {
           <SelectAbr setconfig={setConfig} />
         </div>
       </Streaming>
-      <Script
+      {/* <Script
         onLoad={async () => {
           const config = {
             binaryThresh: 0.5,
@@ -164,7 +168,7 @@ const Stream = () => {
         }}
         // src="/model.js"s
         src="https://unpkg.com/brain.js@2.0.0-beta.23/dist/browser.js"
-      ></Script>
+      ></Script> */}
     </div>
   );
 };

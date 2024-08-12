@@ -61,7 +61,6 @@ export class BufferManager {
     }
 
     this.cmsdManager = null;
-    clearInterval(this.startMonitoring);
   }
 
   release() {}
@@ -140,24 +139,23 @@ export class BufferManager {
     return sortedVariants[qualityIndex];
   }
   segmentDownloaded(deltaTimeMs, numBytes, allowSwitch, request) {
+    // const timeToFirstByte = request?.timeToFirstByte || 0;
+    // const requestStartTime = request?.requestStartTime || Date.now();
+
+    // const liveLatency = deltaTimeMs + timeToFirstByte;
+    // const segmentDelay = Date.now() - requestStartTime + timeToFirstByte;
+    // const segmentData = {
+    //   contentType: request.contentType,
+    //   timestamp: Date.now(),
+    //   latency: liveLatency,
+    //   delay: segmentDelay,
+    // };
+
+    // this.downloadedSegments.push(segmentData);
+
     if (allowSwitch) {
       this.startMonitoringBuffer();
     }
-
-    const timeToFirstByte = request.timeToFirstByte || 0;
-    const requestStartTime = request.requestStartTime || Date.now();
-
-    const liveLatency = deltaTimeMs + timeToFirstByte;
-    const segmentDelay = Date.now() - requestStartTime + timeToFirstByte;
-
-    const segmentData = {
-      contentType: request.contentType,
-      timestamp: Date.now(),
-      latency: liveLatency,
-      delay: segmentDelay,
-    };
-
-    this.downloadedSegments.push(segmentData);
 
     // Logging untuk memantau nilai yang dihitung
   }
@@ -188,6 +186,8 @@ export class BufferManager {
       //     };
       //     display.displayStatValue(item, value);
       //   });
+      // const jitter = document.getElementById("Jitter");
+      // jitter.textContent = this.calculateJitter();
     }, this.monitorInterval);
   }
 
@@ -285,7 +285,9 @@ export class BufferManager {
     this.playbackRate_ = rate;
   }
 
-  setCmsdManager(cmsdManager) {}
+  setCmsdManager(cmsdManager) {
+    this.cmsdManager_ = cmsdManager;
+  }
 
   configure(config) {
     this.config_ = config;

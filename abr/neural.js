@@ -1,5 +1,4 @@
 import shaka from "shaka-player";
-import { trainedData } from "./model";
 shaka.abr.EwmaBandwidthEstimator = class {
   /** */
   constructor() {
@@ -209,11 +208,8 @@ export class Neural {
     this.lastTimeChosenMs_ = null;
   }
 
-  playbackRateChanged(rate) {}
-
-  calculateBufferPercentage(bufferFilled) {
-    const bufferPercentage = (bufferFilled / 1000) * 100; // Convert from milliseconds to seconds and then to percentage
-    return bufferPercentage;
+  playbackRateChanged(rate) {
+    this.playbackRate_ = rate;
   }
 
   segmentDownloaded(deltaTimeMs, numBytes, allowSwitch) {
@@ -250,33 +246,26 @@ export class Neural {
     return bandwidthEstimate;
   }
   suggestStreams() {
-    const buffer = this.getBufferFullness_();
-    const bufferInteger = Math.round(buffer * 1000);
-    const bufferPercentage = this.calculateBufferPercentage(bufferInteger);
-    const bufferLevel = Math.ceil(bufferPercentage / 10); // Convert to a level between 1-10
     const bandwidthEstimate = this.getBandwidthEstimate();
     const currentBandwidthKbps = Math.round(bandwidthEstimate / 1000.0);
     // Penyesuaian pemilihan varian berdasarkan currentBandwidth
-    const adjustedVariant = this.adjustVariantByBandwidth(currentBandwidthKbps);
+    const adjustedVariant = this.chooseVariant(currentBandwidthKbps);
     // Jika ada varian yang disarankan berdasarkan bandwidth, gunakan itu; jika tidak, lanjutkan dengan pemilihan berdasarkan tingkat buffer
     // const chosenVariant = this.chooseVariant(bufferLevel);
 
     // console.log(bufferLevel);
-    if (!this.bandwidthEstimator_.hasGoodEstimate()) {
-      console.log("wait");
-    } else {
+    if (adjustedVariant) {
       this.switch_(
         adjustedVariant,
         this.config_.clearBufferSwitch,
         this.config_.safeMarginSwitch
       );
     }
-
-    this.lastLevel = bufferLevel;
   }
 
   neuralNetwork(currentBandwidth) {
     const result = this.net.run({ [currentBandwidth]: 1 });
+    console.log(result);
     let highestValue = 0;
     let highestVariant = "";
     for (const key in result) {
@@ -290,7 +279,7 @@ export class Neural {
     return highestVariant;
   }
 
-  adjustVariantByBandwidth(currentBandwidth) {
+  chooseVariant(currentBandwidth) {
     const sortedVariants = this.variants_.sort(
       (a, b) => b.bandwidth - a.bandwidth
     );
@@ -298,7 +287,6 @@ export class Neural {
     if (value) {
       for (const variant of sortedVariants) {
         const tests = Math.round(variant.bandwidth / 1000);
-        console.log(sortedVariants[sortedVariants.length - 1]);
 
         if (value == tests) {
           return variant;
@@ -311,32 +299,5 @@ export class Neural {
       return sortedVariants[sortedVariants.length - 1];
     }
     // Cari varian yang memiliki bandwidth yang sesuai dengan atau di bawah currentBandwidth
-  }
-
-  chooseVariant(bufferLevel) {
-    // Sort variants by bandwidth
-    const sortedVariants = this.variants_.sort(
-      (a, b) => b.bandwidth - a.bandwidth
-    );
-    let chooseVariant = null | [];
-    // Define the range for different buffer levels
-    const lowBufferRange = 3; // Range for low buffer level
-    const mediumBufferRange = 7; // Range for medium buffer level
-
-    // Determine the variant based on buffer level
-    if (bufferLevel <= lowBufferRange) {
-      // Low buffer level, choose the lowest variant
-
-      chooseVariant = sortedVariants[sortedVariants.length - 1];
-    } else if (bufferLevel <= mediumBufferRange) {
-      // Medium buffer level, choose the medium variant
-
-      const mediumVariantIndex = Math.floor((sortedVariants.length - 1) / 2);
-      chooseVariant = sortedVariants[mediumVariantIndex];
-    } else {
-      // High buffer level, choose the highest variant
-      chooseVariant = sortedVariants[0];
-    }
-    return chooseVariant;
   }
 }
