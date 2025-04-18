@@ -11,12 +11,12 @@ import SelectAbr from "@/components/component/selectabr";
 import { Rate } from "@/abr/rate";
 import { Hybrid } from "@/abr/hybrid";
 import { Neural } from "@/abr/neural";
+import { calculateDuration } from "@/utils";
 import {
   checkBrowserSupport,
   handleTimeUpdate,
   handleLoadVideo,
-  calculateDuration,
-} from "@/utils";
+} from "./video-player";
 import { BufferManager } from "@/abr/bufferv2";
 const Stream = () => {
   const [player, setPlayer] = useState(null);
