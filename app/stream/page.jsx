@@ -4,7 +4,7 @@ import { Streaming } from "@/components/component/streaming";
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useQueue } from "@uidotdev/usehooks";
-import { Connection } from "@/components/component/connection";
+import { RouterConnection } from "@/components/component/RouterConnection";
 import { NdnPlugin } from "@/ndn/ndn-plugin";
 import { usePapaParse } from "react-papaparse";
 import SelectAbr from "@/components/component/selectabr";
@@ -112,7 +112,7 @@ const Stream = () => {
   }, [config]);
   return (
     <div>
-      <Connection />
+      <RouterConnection />
 
       <Streaming setContent={setContent}>
         <div
