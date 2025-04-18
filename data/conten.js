@@ -1,9 +1,9 @@
 export const content = [
   {
-    content: "minutes",
-    prefixContent: "/minutes",
+    content: "1",
+    prefixContent: "/1",
     durations: "01.15",
-    thumbnail: "/wal.jpg",
+    thumbnail: "/1",
   },
   {
     content: "batu",

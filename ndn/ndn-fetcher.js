@@ -6,31 +6,9 @@ import { fetch, RttEstimator, TcpCubic } from "@ndn/segmented-object";
 import PQueue from "p-queue";
 import hirestime from "hirestime";
 import shaka from "shaka-player";
-import { connectToRouter } from "@ndn/autoconfig";
-import { H3Transport } from "@ndn/quic-transport";
+
+
 const fwHints = [];
-async function connRouter(pref) {
-  try {
-    const { face } = await connectToRouter(pref, {
-      H3Transport,
-      testConnection: false,
-    });
-
-    return face;
-  } catch (error) {
-    throw new Error(error);
-  }
-}
-
-export async function connection(pref) {
-  try {
-    const router = await connRouter(pref);
-
-    return router;
-  } catch (error) {
-    throw new Error(error);
-  }
-}
 export function findFwHint(name) {
   for (const [prefix, fwHint] of fwHints) {
     if (prefix.isPrefixOf(name)) {
@@ -39,13 +17,10 @@ export function findFwHint(name) {
   }
   return undefined;
 }
+
 const getNow = hirestime();
 
 export class VideoFetcher {
-  queue;
-  rtte;
-  ca;
-
   constructor() {
     this.queue = new PQueue({ concurrency: 4 });
     this.rtte = new RttEstimator({ maxRto: 10000 });
@@ -54,18 +29,11 @@ export class VideoFetcher {
 }
 
 export class FileFetcher {
-  vf;
-  uri;
-  requestType;
-  name;
-  abort;
-  endpoint;
   constructor(vf, uri, requestType) {
     this.vf = vf;
     this.uri = uri;
     this.requestType = requestType;
     this.name = new Name(uri.replace(/^ndn:/, ""));
-
     this.abort = new AbortController();
     this.endpoint = new Endpoint({
       modifyInterest: findFwHint(this.name),
@@ -117,29 +85,3 @@ export class FileFetcher {
   }
 }
 
-let vf;
-
-export function NdnPlugin(uri, _, requestType) {
-  const ff = new FileFetcher(vf, uri, requestType);
-
-  return new shaka.util.AbortableOperation(
-    vf.queue.add(async () => {
-      try {
-        return await ff.retrieve();
-      } catch (err) {
-        ff.handleError();
-      }
-    }),
-    () => ff.abort.abort()
-  );
-}
-export function formatInt(n) {
-  return Number.isNaN(n) ? "?" : `${Math.round(n)}`;
-}
-NdnPlugin.reset = () => {
-  vf = new VideoFetcher();
-};
-
-NdnPlugin.getInternals = () => vf;
-
-NdnPlugin.reset();

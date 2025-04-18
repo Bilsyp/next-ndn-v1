@@ -56,6 +56,7 @@
     "sanity": "^3.42.0",
     "shaka-player": "^4.8.3",
     "styled-components": "^6.1.11",
+    "synaptic": "^1.1.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vis": "^4.21.0-EOL",

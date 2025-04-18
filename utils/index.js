@@ -1,4 +1,5 @@
-import { Abr_Test } from "@/app/stream/test/abr/abr_test";
+import { Abr_Test } from "@/app/stream/abr/abr_test";
+import { Testing } from "@/app/stream/abr/test";
 import { parameter } from "@/lib/parameter";
 /**
  * Checks if the browser supports the required functionality for the video player and initializes the player if supported.
@@ -16,10 +17,10 @@ export const checkBrowserSupport = (shaka, NdnPlugin, setPlayer) => {
     // const ui = new shaka.ui.Overlay(playerInstance, videoContainer, video);
     // ui.configure(uiConfig);
     setPlayer(playerInstance);
-    // playerInstance.configure(
-    //   "abrFactory",
-    //   () => new Abr_Test(() => playerInstance?.getBufferFullness())
-    // );
+    playerInstance.configure(
+      "abrFactory",
+      () => new Abr_Test(() => playerInstance?.getBufferFullness())
+    );
   }
   shaka.polyfill.installAll();
   if (shaka.Player.isBrowserSupported()) {
@@ -53,6 +54,7 @@ export const checkBrowserSupport = (shaka, NdnPlugin, setPlayer) => {
  */
 export const handleLoadVideo = async (player, clear, content) => {
   clear();
+  ``;
   try {
     await player?.load(`ndn:/itb/video/${content}/playlist.mpd`);
     // await player.load(
@@ -77,7 +79,7 @@ export const displayStat = (element, stats, rtte) => {
 
   switch (element.id) {
     case "LastBitrate":
-      element.textContent = formatInt(stats["track"][0].bandwidth / 1000);
+      // element.textContent = formatInt(stats["track"][0].bandwidth / 1000);
       break;
 
     case "loadLatency":
@@ -129,6 +131,8 @@ export const displayStat = (element, stats, rtte) => {
 export const handleTimeUpdate = (player, NdnPlugin, add) => {
   const stats = player?.getStats();
   const track = player?.getVariantTracks();
+  // const segment = player?.getSegmentData();
+  // console.log(segment);
   const { rtte } = NdnPlugin.getInternals();
   // const concatTrack = { ...stats, track: track.map((item) => item.active) };
   if (stats && track) {
@@ -215,6 +219,7 @@ const addToQueue = (stats, rtte, add) => {
     bufferingTime: stats["bufferingTime"],
     playTime: formatInt(stats["playTime"]),
     pauseTime: formatInt(stats["pauseTime"]),
+    // lastBitrate: formatInt(stats["track"][0].bandwidth / 1000),
     sRtt_,
     rto_,
   });

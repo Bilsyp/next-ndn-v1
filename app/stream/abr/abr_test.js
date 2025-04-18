@@ -1,9 +1,11 @@
+import shaka from "shaka-player";
 export class Abr_Test {
   constructor(getBufferFullness) {
     this.variants_ = [];
     this.enabled_ = false;
     this.switch_ = null;
     this.config_ = null;
+    this.segmentData = null;
     this.mediaElement_ = null;
     this.lastTimeChosenMs_ = null;
     this.getBufferFullness_ = getBufferFullness;
@@ -66,11 +68,11 @@ export class Abr_Test {
       return average;
     }
     const interval = setInterval(() => {
-      const averageSegmentDownload = calculateAverage(this.requestCompleted);
-      console.log(this.requestCompleted);
-      console.log(
-        `average download in the last 5 segments: ${averageSegmentDownload.toFixed(2)}`
-      );
+      // const averageSegmentDownload = calculateAverage(this.requestCompleted);
+      // console.log(this.requestCompleted);
+      // console.log(
+      //   `average download in the last 5 segments: ${averageSegmentDownload.toFixed(2)}`
+      // );
     }, 2000);
   }
 
@@ -96,42 +98,30 @@ export class Abr_Test {
     return defaultBandwidthEstimate;
   }
   chooseVariant() {
-    let choosen = 20;
-    if(choosen){
-        
-    }
-    const last_Bitrate_Selected = this.variants_[1].bandwidth;
-    return this.variants_;
+    return this.variants_[0];
   }
+
   // deltaTimes : The duration, in milliseconds, that the request took to complete
   // numbytes :   The total number of bytes transferred.
 
-  segmentDownloaded(deltaTimeMs, numBytes, allowSwitch) {
+  segmentDownloaded(deltaTimeMs, numBytes) {
     const buffer = this.getBufferFullness_();
+
     // Convert time to seconds and round to two decimal places
     const downloadTimeSeconds = (deltaTimeMs / 1000).toFixed(2);
-    const chooseVariant = this.chooseVariant();
-
-    if (chooseVariant && allowSwitch) {
-      const segment = {
-        numBytes: numBytes,
-        downloadTimeSeconds: downloadTimeSeconds,
-        bufferSize: buffer,
-        lastBitrate: chooseVariant.bandwidth,
-      };
-      // Check and manage the list of completed requests
-      if (this.requestCompleted.length >= 5) {
-        this.requestCompleted = []; // Clear the list if it exceeds 100 entries
-      }
-
-      // Add the segment object to the list
-      this.requestCompleted.push(segment);
+    const segment = {
+      numBytes: numBytes,
+      downloadTimeSeconds: downloadTimeSeconds,
+      bufferSize: buffer,
+      // lastBitrate: chooseVariant.bandwidth,
+    };
+    // Check and manage the list of completed requests
+    if (this.requestCompleted.length >= 5) {
+      this.requestCompleted = []; // Clear the list if it exceeds 100 entries
     }
+    // Add the segment object to the list
+    this.requestCompleted.push(segment);
     // Create a segment object with numBytes and downloadTimeSeconds
-
     // Log that a segment has been successfully downloaded
-    // console.log(
-    //   `Segment of ${numBytes} bytes downloaded in ${downloadTimeSeconds} seconds.`
-    // );
   }
 }

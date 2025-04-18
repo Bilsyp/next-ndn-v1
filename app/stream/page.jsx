@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useQueue } from "@uidotdev/usehooks";
 import { Connection } from "@/components/component/connection";
-import { NdnPlugin } from "@/ndn/ndn-shaka-plugin";
+import { NdnPlugin } from "@/ndn/ndn-plugin";
 import { usePapaParse } from "react-papaparse";
 import SelectAbr from "@/components/component/selectabr";
 import { Rate } from "@/abr/rate";
@@ -18,7 +18,6 @@ import {
   calculateDuration,
 } from "@/utils";
 import { BufferManager } from "@/abr/bufferv2";
-import { useId } from "react";
 const Stream = () => {
   const [player, setPlayer] = useState(null);
   const [content, setContent] = useState("");
@@ -27,7 +26,6 @@ const Stream = () => {
   const [config, setConfig] = useState("shaka");
   const [net, setNet] = useState();
   const video = useRef(null);
-  const id = useId();
 
   useEffect(() => {
     checkBrowserSupport(shaka, NdnPlugin, setPlayer);
@@ -35,7 +33,6 @@ const Stream = () => {
 
   const handleRecord = () => {
     const obj = JSON.stringify(queue);
-    console.log(queue);
     const csv = jsonToCSV(obj);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     downloadFile(blob, `${config}.csv`);

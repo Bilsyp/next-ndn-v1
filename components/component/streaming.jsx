@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { parameter } from "@/lib/parameter";
 import { content } from "@/data/conten";
+import Image from "next/image";
 export function Streaming({ setContent, children }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-6 max-w-6xl mx-auto py-8 px-4">
@@ -21,7 +22,7 @@ export function Streaming({ setContent, children }) {
               key={item.content}
               className="grid cursor-pointer grid-cols-[80px_1fr] gap-4"
             >
-              <img
+              <Image
                 onClick={() => setContent(item.content)}
                 alt="Thumbnail"
                 className="rounded-md object-cover"

@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  # Backend service (misalnya pakai Node.js)
+  backend:
+    image: node:16
+    container_name: backend
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    depends_on:
+      - mongo
+
+  # Frontend service (misalnya pakai Next.js)
+  frontend:
+    image: node:16
+    container_name: frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  # MongoDB service
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+# Volume untuk MongoDB
+volumes:
+  mongo-data:
+
+# Network untuk komunikasi antar container
+networks:
+  app-network:
+    driver: bridge
