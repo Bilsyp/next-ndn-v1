@@ -52,8 +52,8 @@ docker run -p 3000:3000 nextjs-app
 
 #### 📦 Clone Repo
 ```bash
-git clone https://github.com/namaproject/ndn-streaming.git
-cd ndn-streaming
+git clone https://github.com/Bilsyp/next-ndn-v1.git
+cd next-ndn-v1
 ```
 
 #### 📝 Install Dependencies
