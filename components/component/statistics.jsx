@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 
 import { parameter } from "@/lib/parameter";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import {
   BarChart,
   Bar,
@@ -18,7 +18,6 @@ import {
   Cell,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import { calculateQoE, filterDuplicates } from "@/utils";

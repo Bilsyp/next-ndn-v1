@@ -1,24 +1,29 @@
+// --- File: pages/StreamPage.jsx ---
 "use client";
-import shaka from "shaka-player";
-import { Streaming } from "@/components/component/streaming";
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import shaka from "shaka-player";
 import { useQueue } from "@uidotdev/usehooks";
-import { RouterConnection } from "@/components/component/RouterConnection";
-import { NdnPlugin } from "@/ndn/ndn-plugin";
 import { usePapaParse } from "react-papaparse";
-import SelectAbr from "@/components/component/selectabr";
+
+import { Streaming } from "@/components/component/stream/streaming";
+import { Button } from "@/components/ui/button";
+import { RouterConnection } from "@/components/component/stream/RouterConnection";
+import SelectAbr from "@/components/component/stream/selectabr";
+
+import { NdnPlugin } from "@/ndn/ndn-plugin";
 import { Rate } from "@/abr/rate";
 import { Hybrid } from "@/abr/hybrid";
 import { Neural } from "@/abr/neural";
+import { BufferManager } from "@/abr/bufferv2";
+
 import { calculateDuration } from "@/utils";
 import {
   checkBrowserSupport,
   handleTimeUpdate,
   handleLoadVideo,
-} from "./video-player";
-import { BufferManager } from "@/abr/bufferv2";
-const Stream = () => {
+} from "@/app/stream/video-player";
+
+const StreamPage = () => {
   const [player, setPlayer] = useState(null);
   const [content, setContent] = useState("");
   const { clear, add, queue } = useQueue([]);
@@ -31,12 +36,21 @@ const Stream = () => {
     checkBrowserSupport(shaka, NdnPlugin, setPlayer);
   }, []);
 
+  useEffect(() => {
+    handleLoadVideo(player, clear, content);
+  }, [content]);
+
+  useEffect(() => {
+    handleSetConfig();
+  }, [config]);
+
   const handleRecord = () => {
     const obj = JSON.stringify(queue);
     const csv = jsonToCSV(obj);
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     downloadFile(blob, `${config}.csv`);
   };
+
   const downloadFile = (blob, filename) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -46,7 +60,8 @@ const Stream = () => {
     a.click();
     document.body.removeChild(a);
   };
-  const handleSetConfig = async () => {
+
+  const handleSetConfig = () => {
     clear();
     switch (config) {
       case "Rate Base":
@@ -63,7 +78,6 @@ const Stream = () => {
           "abrFactory",
           () => new BufferManager(() => player?.getBufferFullness(), player)
         );
-
         break;
       case "Hybrid Base":
         player.configure(
@@ -85,35 +99,27 @@ const Stream = () => {
         break;
       case "Throughput Base":
         player.configure("abrFactory", () => new shaka.abr.SimpleAbrManager());
-        // player.resetConfiguration();
-
         break;
     }
   };
+
   const handleLoadMetadata = (e) => {
     const duration = e?.target?.duration;
     const bufferingGoal = calculateDuration(duration);
     player.configure({
       streaming: {
-        // lowLatencyMode: true,
         bufferingGoal,
       },
     });
   };
+
   const handleStats = () => {
     handleTimeUpdate(player, NdnPlugin, add);
   };
 
-  useEffect(() => {
-    handleLoadVideo(player, clear, content);
-  }, [content]);
-  useEffect(() => {
-    handleSetConfig();
-  }, [config]);
   return (
     <div>
       <RouterConnection />
-
       <Streaming setContent={setContent}>
         <div
           data-shaka-player-container
@@ -138,34 +144,8 @@ const Stream = () => {
           <SelectAbr setconfig={setConfig} />
         </div>
       </Streaming>
-      {/* <Script
-        onLoad={async () => {
-          const config = {
-            binaryThresh: 0.5,
-            hiddenLayers: [10], // array of ints for the sizes of the hidden layers in the network
-            activation: "sigmoid", // supported activation types: ['sigmoid', 'relu', 'leaky-relu', 'tanh'],
-            leakyReluAlpha: 0.01, // supported for activation type 'leaky-relu'
-          };
-
-          // create a simple feed-forward neural network with backpropagation
-          const net = new brain.NeuralNetwork(config);
-          const timeStep = new brain.recurrent.LSTMTimeStep({
-            inputSize: 2,
-            hiddenLayers: [10],
-            outputSize: 2,
-          });
-          const test = await fetch(
-            "https://raw.githubusercontent.com/Bilsyp/model_brainjs/master/model_v5.json"
-          );
-          const result = await test.json();
-          net.fromJSON(result);
-          setNet(net);
-        }}
-        // src="/model.js"s
-        src="https://unpkg.com/brain.js@2.0.0-beta.23/dist/browser.js"
-      ></Script> */}
     </div>
   );
 };
 
-export default Stream;
+export default StreamPage;

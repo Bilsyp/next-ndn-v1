@@ -9,7 +9,7 @@
 
 @layer components {
   .containers {
-    @apply lg:max-w-[1200px]  lg:w-[750px] mx-auto p-10 overflow-clip bg-slate-900;
+    @apply lg:max-w-[1200px]  lg:w-[750px] mx-auto p-10 overflow-clip ;
   }
 }
 .test {
