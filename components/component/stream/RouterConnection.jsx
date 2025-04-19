@@ -51,9 +51,9 @@ export function RouterConnection() {
       </div>
 
       <CardContent className="flex items-center justify-center gap-4 py-1">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 ">
           <NetworkIcon
-            className={`h-6 w-6 ${loading ? "animate-spin" : ""} text-gray-500 dark:text-gray-400`}
+            className={`h-6 w-6 ${loading ? "animate-spin" : ""} text-gray-500 `}
           />
         </div>
 

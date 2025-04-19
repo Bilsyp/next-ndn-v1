@@ -71,7 +71,7 @@ export function ChatAI() {
                 className={`${
                   message.sender === "user"
                     ? "bg-gray-50 text-white"
-                    : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                    : "bg-gray-200  text-gray-800 "
                 } rounded-lg p-4 max-w-[80%]`}
               >
                 <article className=" prose ">{parse(message.text)}</article>
@@ -80,10 +80,10 @@ export function ChatAI() {
           </div>
         ))}
       </div>
-      <div className="bg-gray-100 dark:bg-gray-800 p-4 flex items-center">
+      <div className="bg-gray-100  p-4 flex items-center">
         <input
           onChange={handleInputChange}
-          className="flex-1 bg-white dark:bg-gray-700 border-none rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-200"
+          className="flex-1 bg-white  border-none rounded-lg py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 "
           placeholder="Type your message..."
           type="text"
           value={inputText}

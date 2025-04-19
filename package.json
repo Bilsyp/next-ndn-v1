@@ -55,6 +55,7 @@
     "remark-html": "^16.0.1",
     "sanity": "^3.42.0",
     "shaka-player": "^4.8.3",
+    "sharp": "^0.34.1",
     "styled-components": "^6.1.11",
     "synaptic": "^1.1.4",
     "tailwind-merge": "^2.3.0",

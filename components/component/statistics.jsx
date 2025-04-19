@@ -1,10 +1,3 @@
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
 
 import { parameter } from "@/lib/parameter";
 import {  useState } from "react";
@@ -20,7 +13,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { calculateQoE, filterDuplicates } from "@/utils";
+import {  filterDuplicates } from "@/utils";
+import {calculateQoE} from "@/app/stream/video-player"
 import SelectStats from "./selectStats";
 import CsvReader from "./csvReader";
 
